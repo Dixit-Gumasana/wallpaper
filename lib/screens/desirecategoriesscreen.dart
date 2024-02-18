@@ -49,14 +49,17 @@ class _DesireCatPhotoScreenState extends State<DesireCatPhotoScreen> {
                     border: Border.all(width: 1.5),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: CachedNetworkImage(
-                    imageUrl:
-                        '${homeController.desireCatPhotosList[index]["src"]["large"]}',
-                    fit: BoxFit.fill,
-                    placeholder: (context, url) =>
-                        Center(child: const CircularProgressIndicator()),
-                    errorWidget: (context, url, error) =>
-                        Icon(Icons.error_outline),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          '${homeController.desireCatPhotosList[index]["src"]["large"]}',
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) =>
+                          Center(child: const CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          Icon(Icons.error_outline),
+                    ),
                   ),
                 ),
               );
