@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   final homeController = Get.put(HomeController());
 
   @override
@@ -26,7 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
+    return SafeArea(
+        child: Scaffold(
       backgroundColor: Color(0xff101113),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -35,11 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 12, top: 10),
-              child: Text("Trending", style: TextStyle(
-                  fontSize: 21,
-                  color: Colors.white.withOpacity(0.8),
-                  fontWeight: FontWeight.w400
-              ),),
+              child: Text(
+                "Trending",
+                style: TextStyle(
+                    fontSize: 21,
+                    color: Colors.white.withOpacity(0.8),
+                    fontWeight: FontWeight.w400),
+              ),
             ),
             SizedBox(
               height: 100,
@@ -54,79 +57,93 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.only(left: 12, top: 10),
                       child: GestureDetector(
                         onTap: () {
-                          img =
-                          homeController.trendingPhotosList[index]["src"]["original"];
+                          img = homeController.trendingPhotosList[index]["src"]
+                              ["original"];
                           Get.to(ViewPhoto());
-
-
                         },
-                        child: Container(width: 100,
+                        child: Container(
+                          width: 100,
                           height: 100,
                           decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 0.2,
-                              color: Color(0xffffffff)
-                            ),
+                              border: Border.all(
+                                width: 0.2,
+                              ),
                               color: Colors.grey,
                               borderRadius: BorderRadius.circular(20),
-                              image: DecorationImage(image: NetworkImage(
-                                  "${homeController
-                                      .trendingPhotosList[index]["src"]["large"]}"),
-                                  fit: BoxFit.cover)
-
+                            
                           ),
-
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: CachedNetworkImage(
+                              imageUrl:
+                              '${homeController.trendingPhotosList[index]["src"]["large"]}',
+                              fit: BoxFit.fill,
+                              placeholder: (context, url) =>
+                                  Center(child: const CircularProgressIndicator()),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error_outline),
+                            ),
+                          ),
                         ),
                       ),
                     );
-                  },);
+                  },
+                );
               }),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 12, top: 15),
-              child: Text("Popular", style: TextStyle(
-                  fontSize: 21,
-                  color: Colors.white.withOpacity(0.8),
-                  fontWeight: FontWeight.w400
-              ),),
+              child: Text(
+                "Popular",
+                style: TextStyle(
+                    fontSize: 21,
+                    color: Colors.white.withOpacity(0.8),
+                    fontWeight: FontWeight.w400),
+              ),
             ),
             Obx(() {
               return GridView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: homeController.popularPhotosList.length,
-                padding: EdgeInsets.only(
-                    left: 12, top: 12, right: 12, bottom: 15),
+                padding:
+                    EdgeInsets.only(left: 12, top: 12, right: 12, bottom: 15),
                 physics: ScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 8,
                     crossAxisSpacing: 10,
-                    mainAxisExtent: 250
-                ),
+                    mainAxisExtent: 250),
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      img =
-                      homeController.popularPhotosList[index]["src"]["original"];
+                      img = homeController.popularPhotosList[index]["src"]
+                          ["original"];
                       Get.to(ViewPhoto());
-
                     },
                     child: Container(
                       height: 200,
                       width: 80,
                       decoration: BoxDecoration(
-                          color: Colors.blueGrey,
-                          borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(image: NetworkImage(
-                              "${homeController
-                                  .popularPhotosList[index]["src"]["large"]}"),
-                              fit: BoxFit.cover)
-
+                        color: Colors.blueGrey,
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              '${homeController.popularPhotosList[index]["src"]["large"]}',
+                          fit: BoxFit.fill,
+                          placeholder: (context, url) =>
+                              Center(child: const CircularProgressIndicator()),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error_outline),
+                        ),
                       ),
                     ),
                   );
-                },);
+                },
+              );
             })
           ],
         ),
@@ -187,9 +204,8 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         backgroundColor: Colors.blueGrey,
         // Color(0xff202123),
-        child: Icon(Icons.search,color: Colors.white,weight: 20),
+        child: Icon(Icons.search, color: Colors.white, weight: 20),
       ),
-
     ));
   }
 }
