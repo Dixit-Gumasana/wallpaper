@@ -165,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             .validate()) {
                           homeController.PhotosFunction(
                               query: homeController.searchController.text);
-                          Get.offAll(DesireCatPhotoScreen());
+                          Get.to(DesireCatPhotoScreen());
                           homeController.searchController.clear();
                           homeController.desireCatPhotosList.clear();
                         }
@@ -175,7 +175,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   TextButton(
                       onPressed: () {
                         Get.back();
+                        Get.back();
                         homeController.searchController.clear();
+                        FocusScope.of(context).unfocus();
                       },
                       child: Text("cancle")),
                 ],
