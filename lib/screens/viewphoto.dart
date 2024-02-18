@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'dart:developer';
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:get/get.dart';
@@ -43,9 +44,18 @@ class _ViewPhotoState extends State<ViewPhoto> {
                   height: Get.height / 1.3,
                   width: Get.width,
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: NetworkImage("$img"), fit: BoxFit.fill),
+                    // image: DecorationImage(
+                    //     image: NetworkImage("$img"), fit: BoxFit.fill),
                   ),
+                  child: CachedNetworkImage(
+                    imageUrl: '$img',
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) =>
+                    Center(child: const CircularProgressIndicator()),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.error_outline),
+                  ),
+
                 ),
               ),
               SizedBox(
