@@ -43,10 +43,6 @@ class _ViewPhotoState extends State<ViewPhoto> {
                 child: Container(
                   height: Get.height / 1.3,
                   width: Get.width,
-                  decoration: BoxDecoration(
-                    // image: DecorationImage(
-                    //     image: NetworkImage("$img"), fit: BoxFit.fill),
-                  ),
                   child: CachedNetworkImage(
                     imageUrl: '$img',
                     fit: BoxFit.fill,
