@@ -1,11 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wallpaper/screens/viewphoto.dart';
 
-
 import '../controller/homecontroller.dart';
 import 'basescreen.dart';
-
 
 class DesireCatPhotoScreen extends StatefulWidget {
   const DesireCatPhotoScreen({super.key});
@@ -38,7 +37,8 @@ class _DesireCatPhotoScreenState extends State<DesireCatPhotoScreen> {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  img = homeController.desireCatPhotosList[index]["src"]["original"];
+                  img = homeController.desireCatPhotosList[index]["src"]
+                      ["original"];
                   Get.to(ViewPhoto());
                 },
                 child: Container(
@@ -48,9 +48,16 @@ class _DesireCatPhotoScreenState extends State<DesireCatPhotoScreen> {
                     color: Colors.blueGrey,
                     border: Border.all(width: 1.5),
                     borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(image: NetworkImage("${homeController.desireCatPhotosList[index]["src"]["large"]}"),fit: BoxFit.cover)
                   ),
-
+                  child: CachedNetworkImage(
+                    imageUrl:
+                        '${homeController.desireCatPhotosList[index]["src"]["large"]}',
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) =>
+                        Center(child: const CircularProgressIndicator()),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.error_outline),
+                  ),
                 ),
               );
             },
@@ -59,14 +66,13 @@ class _DesireCatPhotoScreenState extends State<DesireCatPhotoScreen> {
       }),
       floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
       floatingActionButton: FloatingActionButton(
-
         onPressed: () {
-           Get.back();
+          Get.back();
           homeController.desireCatPhotosList.clear();
         },
         backgroundColor: Colors.blueGrey,
-
-        child: Icon(Icons.arrow_back, weight: 20, color: Colors.white,size: 25),
+        child:
+            Icon(Icons.arrow_back, weight: 20, color: Colors.white, size: 25),
       ),
     );
   }
